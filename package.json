@@ -1,27 +1,27 @@
 {
   "name": "heartpair",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "HeartPair matching game with authenticated scores and heart puzzles",
+  "main": "backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js"
+    "test": "node --test tests/*.test.cjs",
+    "check": "node scripts/check.cjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.19.3",
-    "socket.io": "^4.8.1"
-  },
   "devDependencies": {
+    "jsdom": "^26.1.0",
     "nodemon": "^3.1.11"
-  }
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "backend"
+  ]
 }

@@ -11,34 +11,16 @@
   <div class="bg-blur"></div>
   <img src="images/logo.png" alt="HeartPair Logo" class="logo-top-left">
 
-  <div class="form-container">
+  <form class="form-container">
     <h2>Register</h2>
-    <input type="text" id="name" placeholder="Full Name" required>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
+    <input type="text" id="name" autocomplete="name" aria-label="Full name" maxlength="80" placeholder="Full Name" required>
+    <input type="email" id="email" autocomplete="email" aria-label="Email" placeholder="Email" required>
+    <input type="password" id="password" autocomplete="new-password" aria-label="Password" minlength="8" placeholder="Password" required>
     <button class="primary-btn" id="register-btn">Sign Up</button>
-    <p id="error" style="color: red; display: none;"></p>
+    <p id="error" style="color: red;" role="alert" hidden></p>
     <p>Already have an account? <a href="login.html">Login</a></p>
-  </div>
+  </form>
 
-  <script type="module">
-    import { register } from './js/auth.js';
-
-    document.getElementById('register-btn').addEventListener('click', async () => {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const error = document.getElementById('error');
-
-      try {
-        const res = await register(name, email, password);
-        if (res.error) throw new Error(res.error);
-        window.location.href = 'game.html';
-      } catch (err) {
-        error.textContent = err.message;
-        error.style.display = 'block';
-      }
-    });
-  </script>
+  <script type="module" src="js/auth-form.js"></script>
 </body>
 </html>

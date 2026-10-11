@@ -11,32 +11,15 @@
   <div class="bg-blur"></div>
   <img src="images/logo.png" alt="HeartPair Logo" class="logo-top-left">
 
-  <div class="form-container">
+  <form class="form-container">
     <h2>Login</h2>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
+    <input type="email" id="email" autocomplete="email" aria-label="Email" placeholder="Email" required>
+    <input type="password" id="password" autocomplete="current-password" aria-label="Password" placeholder="Password" required>
     <button class="primary-btn" id="login-btn">Login</button>
-    <p id="error" style="color: red; display: none;"></p>
+    <p id="error" style="color: red;" role="alert" hidden></p>
     <p>New user? <a href="register.html">Register</a></p>
-  </div>
+  </form>
 
-  <script type="module">
-    import { login } from './js/auth.js';
-
-    document.getElementById('login-btn').addEventListener('click', async () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const error = document.getElementById('error');
-
-      try {
-        const res = await login(email, password);
-        if (res.error) throw new Error(res.error);
-        window.location.href = 'game.html';
-      } catch (err) {
-        error.textContent = err.message;
-        error.style.display = 'block';
-      }
-    });
-  </script>
+  <script type="module" src="js/auth-form.js"></script>
 </body>
 </html>

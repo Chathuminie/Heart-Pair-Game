@@ -720,4 +720,20 @@ html, body {
     padding: 15px 20px;
     font-size: 16px;
   }
+}/* Responsive card grid and navigation. */
+.heart-grid { grid-template-columns: repeat(var(--columns, 4), minmax(0, 100px)); }
+.card { border: 0; background: transparent; padding: 0; width: 100%; aspect-ratio: 2 / 3; height: auto; }
+.card-inner { display: block; }
+.card:disabled { opacity: 1; cursor: default; }
+.quote-popup { pointer-events: none; }
+.modal, .result-message { width: min(450px, calc(100vw - 32px)); min-width: 0; max-height: 90vh; overflow-y: auto; }
+@media (max-width: 768px) {
+  .nav-buttons { position: relative; top: auto; right: auto; flex-direction: row; flex-wrap: wrap; justify-content: center; padding: 100px 12px 0; }
+  .nav-btn { min-width: 0; }
+  .game-container { padding: 24px 12px; align-items: flex-start; }
+  .content-section { padding: 24px 12px; }
+  .heart-grid { gap: 8px; }
+  .card-front { font-size: 32px; }
+  #account-info { padding: 20px 12px; }
+  #login-prompt-modal .modal-content { min-width: 0; padding: 0; }
 }

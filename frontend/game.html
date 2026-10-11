@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeartPair Game</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+  <!-- ===== BACKGROUND BLUR ===== -->
+  <div class="bg-blur"></div>
+
+  <!-- ===== LOGO TOP LEFT ===== -->
+  <img src="images/logo.png" alt="HeartPair Logo" class="logo-top">
+
+  <!-- ===== NAVIGATION BUTTONS TOP RIGHT ===== -->
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="showSection('level-select')">Home</button>
+    <button class="nav-btn" onclick="showSection('how')">How to Play</button>
+    <button class="nav-btn" onclick="showSection('leaderboard')">Leaderboard</button>
+    <button class="nav-btn" onclick="showSection('account')">My Account</button>
+    <button class="nav-btn" onclick="logoutUser()">Logout</button>
+  </div>
+
+  <!-- ===== GAME CONTAINER ===== -->
+  <div class="game-container">
+
+<!-- ===== LEVEL SELECTION SCREEN ===== -->
+<div id="level-select" class="content-section">
+  <h2>Select Your Level!</h2>
+  <div class="level-cards">
+
+    <!-- EASY -->
+    <div class="level-card">
+      <img src="images/easy.png" alt="Easy Level" class="level-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2210%22 y=%2250%22 font-size=%2230%22%3E😊%3C/text%3E%3C/svg%3E'">
+      <div class="level-name">Easy</div>
+      <div class="level-info">
+        <p>⏱ Time: 30s</p>
+        <p>❤️ Lives: 5</p>
+        <p>Cards: 6 (3 pairs)</p>
+      </div>
+      <button class="play-btn" onclick="startLevel('easy')">Play</button>
+    </div>
+
+    <!-- MEDIUM -->
+    <div class="level-card">
+      <img src="images/medium.png" alt="Medium Level" class="level-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2210%22 y=%2250%22 font-size=%2230%22%3E😊%3C/text%3E%3C/svg%3E'">
+      <div class="level-name">Medium</div>
+      <div class="level-info">
+        <p>⏱ Time: 60s</p>
+        <p>❤️ Lives: 5</p>
+        <p>Cards: 12 (6 pairs)</p>
+      </div>
+      <button class="play-btn" onclick="startLevel('medium')">Play</button>
+    </div>
+
+    <!-- HARD -->
+    <div class="level-card">
+      <img src="images/hard.png" alt="Hard Level" class="level-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2210%22 y=%2250%22 font-size=%2230%22%3E😊%3C/text%3E%3C/svg%3E'">
+      <div class="level-name">Hard</div>
+      <div class="level-info">
+        <p>⏱ Time: 90s</p>
+        <p>❤️ Lives: 5</p>
+        <p>Cards: 16 (8 pairs)</p>
+      </div>
+      <button class="play-btn" onclick="startLevel('hard')">Play</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+    <!-- ===== GAMEPLAY SCREEN ===== -->
+    <div id="game-play" class="content-section game-box" style="display:none;">
+      <!-- Score, Lives, Timer -->
+      <div class="score-lives">
+        <span id="score">Score: 0</span>
+        <span id="lives">Lives: 3</span>
+        <span id="timer">Time: 00:00</span>
+      </div>
+
+      <!-- Game Card Grid -->
+      <div class="heart-grid" id="heart-box"></div>
+
+      <!-- Back Button -->
+      <button class="back-btn" onclick="goBackToLevels()">← Back</button>
+
+      <!-- Motivational Quote Popup -->
+      <div id="quote-popup" class="quote-popup hidden"></div>
+
+      <!-- Result Message -->
+      <div id="result-message" class="result-message hidden">
+        <p id="message-text"></p>
+        <button class="primary-btn" onclick="restartGame()">Play Again</button>
+      </div>
+    </div>
+
+    <!-- ===== LEADERBOARD ===== -->
+    <div id="leaderboard" class="content-section" style="display:none;">
+      <h2>🏆 Leaderboard</h2>
+      <ul id="leaderboard-list"></ul>
+    </div>
+
+    <!-- ===== HOW TO PLAY ===== -->
+    <div id="how" class="content-section" style="display:none;">
+      <h2>📘 How to Play</h2>
+      <p>1️⃣ Choose your level (Easy, Medium, Hard)</p>
+      <p>2️⃣ Flip cards to find matching heart pairs</p>
+      <p>3️⃣ Every correct match gives you 10 points and shows a motivational quote</p>
+      <p>4️⃣ Wrong matches cost you 1 life</p>
+      <p>5️⃣ When lives reach 0, solve a math puzzle to earn 2 extra lives!</p>
+      <p>6️⃣ Match all pairs before time runs out to WIN! 🎉</p>
+    </div>
+
+    <!-- ===== ACCOUNT SECTION ===== -->
+    <div id="account" class="content-section" style="display:none;">
+      <h2>👤 My Account</h2>
+      <div style="text-align: center; padding: 60px 40px;">
+        <p id="account-info" style="font-size: 28px; color: #764ba2; line-height: 1.8;"></p>
+      </div>
+    </div>
+  </div>
+
+<!-- ===== EXTRA LIFE PUZZLE MODAL ===== -->
+  <div id="extra-life-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h3 id="life-prompt">🧩 Solve this puzzle to earn 2 extra lives!</h3>
+      <div style="text-align:center; margin:10px 0;">
+        <img id="life-image" src="" alt="Puzzle" style="max-width:220px; max-height:220px; display:none; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.12);" />
+      </div>
+      <input type="number" id="life-answer" placeholder="Enter your answer">
+      <div style="display:flex; gap:12px; justify-content:center; margin-top:10px;">
+        <button class="primary-btn" onclick="checkExtraLife()">Submit</button>
+        <button class="primary-btn" style="background:#ccc;color:#333;" onclick="cancelPuzzleModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LOGIN PROMPT MODAL (shown when guest clicks Play) ===== -->
+  <div id="login-prompt-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h3>🔒 Login Required</h3>
+      <p style="color:#666;">You must be logged in to play and save your score.</p>
+      <div style="display:flex; gap:12px; justify-content:center; margin-top:10px;">
+        <button class="primary-btn" id="login-prompt-login">Go to Login</button>
+        <button class="primary-btn" id="login-prompt-cancel" style="background:#ccc;color:#333;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GAME JS (FIXED) ===== -->
+  <script type="module" src="js/game.js"></script>
+</body>
+</html>

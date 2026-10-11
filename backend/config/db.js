@@ -1,14 +1,5 @@
-const mongoose = require("mongoose");
-
-const connectDB = async () => {
-  try {
-    const uri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/heartpairdb";
-    await mongoose.connect(uri);
-    console.log("✅ MongoDB connected");
-  } catch (err) {
-    console.error("❌ MongoDB connection error:", err && err.message ? err.message : err);
-    process.exit(1);
-  }
+const mongoose = require('mongoose');
+module.exports = async function connectDB() {
+  await mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/heartpairdb', { serverSelectionTimeoutMS: 10000 });
+  console.log('MongoDB connected');
 };
-
-module.exports = connectDB;

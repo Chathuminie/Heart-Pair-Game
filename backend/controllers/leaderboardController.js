@@ -3,32 +3,31 @@ const User = require('../models/User');
 
 exports.saveScore = async (req, res) => {
   try {
-    const { score, level, carrotsCollected, extra } = req.body;
+    const { score, level, carrotsCollected = 0 } = req.body || {};
+    const maximumScores = { easy: 30, medium: 60, hard: 80 };
     const userId = req.userId; // From auth middleware
-    
-    if (typeof score !== 'number') return res.status(400).json({ message: "score must be a number" });
-    
+
+    if (!Object.hasOwn(maximumScores, level) || !Number.isInteger(score) || score < 0 || score > maximumScores[level] || score % 10 !== 0) return res.status(400).json({ error: 'Invalid score or level' });
+    if (!Number.isInteger(carrotsCollected) || carrotsCollected < 0) return res.status(400).json({ error: 'Invalid carrots count' });
+
     // Get user info for playerName
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
-    
+
     // Save score
-    const s = new Score({ 
+    const s = new Score({
       userId,
       playerName: user.name,
-      score, 
-      level, 
-      carrotsCollected, 
-      extra 
+      score,
+      level,
+      carrotsCollected,
+      extra: {}
     });
     const saved = await s.save();
-    
+
     // Update user's highScore if this is a new high score
-    if (score > (user.highScore || 0)) {
-      user.highScore = score;
-      await user.save();
-    }
-    
+    await User.updateOne({ _id: userId }, { $max: { highScore: score } });
+
     return res.status(201).json(saved);
   } catch (err) {
     console.error("Error saving score:", err);
@@ -43,7 +42,7 @@ exports.getTop = async (req, res) => {
       .populate('userId', 'name')
       .sort({ score: -1, date: 1 })
       .limit(10);
-    
+
     // Format response
     const formatted = top.map(s => ({
       playerName: s.playerName || 'Anonymous',
@@ -51,7 +50,7 @@ exports.getTop = async (req, res) => {
       level: s.level || 'N/A',
       date: s.date
     }));
-    
+
     return res.json(formatted);
   } catch (err) {
     console.error("Error fetching top scores:", err);

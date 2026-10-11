@@ -28,3 +28,22 @@ To publish only through a chosen commit, use
 `git push origin <commit-hash>:main`. A later push to a descendant includes
 the intervening commits. `git push origin main` publishes every local commit
 on the branch that the remote does not already contain.
+
+## Project review and fixes
+
+The follow-up review is recorded in separate local commits:
+
+| Order | Commit message | Scope |
+| --- | --- | --- |
+| 9 | chore: unify workspace dependencies and project checks | Root workspace, complete backend dependencies, single lockfile, syntax and asset checker |
+| 10 | fix(backend): repair sessions scores puzzles and server startup | Testable HTTP app, explicit environment loading, database startup, models, auth validation, score validation, Socket.IO authentication and user identity |
+| 11 | fix(frontend): repair forms gameplay lifecycle and responsive layouts | Shared request helpers, native forms, timer/round cleanup, safe profile and ranking rendering, puzzle fallback, account score history, shared/game CSS separation |
+| 12 | test: cover HTTP sockets frontend and MongoDB integration | Route/session/score checks, real WebSocket transport, frontend DOM regressions and opt-in isolated MongoDB test |
+| 13 | docs: refresh setup structure testing and deployment guide | README, development guide and this tracker |
+
+Validation completed: seven tests passed with the live MongoDB integration
+enabled; JavaScript syntax and local HTML assets passed; configured MongoDB
+read-only ping and live HTTP health passed. The database integration used a
+random test database and removed it afterward. Existing application records
+were untouched. Frontend interaction tests use jsdom; visual browser review
+remains a separate check. No push is included.
